@@ -53,7 +53,9 @@ export const getPosts = async (req, res) => {
 export const getRecentPosts = async (req, res) => {
   const serviceResponse = { ...Response };
   try {
-    const posts = await Post.find({}, {}, { sort: { date: -1 } });
+    const posts = await Post.find({}, {}, { sort: { date: -1 } }).populate(
+      "_author"
+    );
     posts.slice(6);
     serviceResponse.success = true;
     serviceResponse.msg = "posts fetched successfully";
