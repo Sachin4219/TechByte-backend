@@ -15,37 +15,43 @@ export const register = async (req, res) => {
   const serviceResponse = { ...Response };
   try {
     // Find if author already exists or not
-    const foundAuthor = await Author.findOne({ username });
+    const foundAuthorEmail = await Author.findOne({ email });
+    const foundAuthorUserName = await Author.findOne({ username });
     // If author already exists
-    if (foundAuthor) {
-      serviceResponse.msg = "author is already registered";
+    if (foundAuthorEmail || foundAuthorUserName) {
+      serviceResponse.success = false;
+      if(foundAuthorEmail)
+        serviceResponse.msg = "Email is already registered";
+      if(foundAuthorUserName)
+        serviceResponse.msg = "Username is already registered";
       res.status(409).json(serviceResponse);
-    } else {
-      // Create hash
-      const hash = await bcrypt.hash(password, 10);
-      // console.log("Hash created", hash)
-
-      const newAuthor = new Author({
-        name,
-        username,
-        bio,
-        photo,
-        password: hash,
-        email,
-      });
-      await newAuthor.save();
-
-      serviceResponse.success = true;
-      serviceResponse.msg = "Author registered successfully";
-      serviceResponse.response = {
-        name: newAuthor.username,
-        photo: newAuthor.photo,
-        email: newAuthor.email,
-        token: generateToken(newAuthor),
-      };
-
-      res.status(201).json(serviceResponse);
     }
+    else{
+        // Create hash
+        const hash = await bcrypt.hash(password, 10);
+        // console.log("Hash created", hash)
+
+        const newAuthor = new Author({
+          name,
+          username,
+          bio,
+          photo,
+          password: hash,
+          email,
+        });
+        await newAuthor.save();
+  
+          serviceResponse.success = true;
+          serviceResponse.msg = "Author registered successfully";
+          serviceResponse.response = {
+            name: newAuthor.username,
+            photo: newAuthor.photo,
+            email: newAuthor.email,
+            token: generateToken(newAuthor),
+          };
+  
+        res.status(201).json(serviceResponse);
+      }
   } catch (error) {
     serviceResponse.msg = "Failed to register author";
     serviceResponse.error = error;
