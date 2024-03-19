@@ -11,11 +11,13 @@ import Subscription from "./models/subscription.model.js";
 // const __filename = url.fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 dotenv.config();
-
+const publickey =
+  "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic";
+const privatekey = "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY";
 webpush.setVapidDetails(
   "mailto:elzachin373@gmail.com",
-  "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic",
-  "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY"
+  publickey.replace(/-/g, "+").replace(/_/g, "/"),
+  privatekey.replace(/-/g, "+").replace(/_/g, "/")
 );
 
 // const subscription = {
