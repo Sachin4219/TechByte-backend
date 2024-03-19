@@ -2,6 +2,8 @@ import Author from "../models/author.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Response } from "../types/response.js";
+import webpush from "web-push";
+import Subscription from "../models/subscription.model.js";
 
 export const generateToken = (author) => {
   console.log(author);
@@ -20,38 +22,36 @@ export const register = async (req, res) => {
     // If author already exists
     if (foundAuthorEmail || foundAuthorUserName) {
       serviceResponse.success = false;
-      if(foundAuthorEmail)
-        serviceResponse.msg = "Email is already registered";
-      if(foundAuthorUserName)
+      if (foundAuthorEmail) serviceResponse.msg = "Email is already registered";
+      if (foundAuthorUserName)
         serviceResponse.msg = "Username is already registered";
       res.status(409).json(serviceResponse);
-    }
-    else{
-        // Create hash
-        const hash = await bcrypt.hash(password, 10);
-        // console.log("Hash created", hash)
+    } else {
+      // Create hash
+      const hash = await bcrypt.hash(password, 10);
+      // console.log("Hash created", hash)
 
-        const newAuthor = new Author({
-          name,
-          username,
-          bio,
-          photo,
-          password: hash,
-          email,
-        });
-        await newAuthor.save();
-  
-          serviceResponse.success = true;
-          serviceResponse.msg = "Author registered successfully";
-          serviceResponse.response = {
-            name: newAuthor.username,
-            photo: newAuthor.photo,
-            email: newAuthor.email,
-            token: generateToken(newAuthor),
-          };
-  
-        res.status(201).json(serviceResponse);
-      }
+      const newAuthor = new Author({
+        name,
+        username,
+        bio,
+        photo,
+        password: hash,
+        email,
+      });
+      await newAuthor.save();
+
+      serviceResponse.success = true;
+      serviceResponse.msg = "Author registered successfully";
+      serviceResponse.response = {
+        name: newAuthor.username,
+        photo: newAuthor.photo,
+        email: newAuthor.email,
+        token: generateToken(newAuthor),
+      };
+
+      res.status(201).json(serviceResponse);
+    }
   } catch (error) {
     serviceResponse.msg = "Failed to register author";
     serviceResponse.error = error;
@@ -107,4 +107,30 @@ export const check_auth = (req, res, next) => {
     serviceResponse.response = { isVerified: false };
     return res.status(401).json(serviceResponse);
   }
+};
+
+export const subscribeUser = async (req, res) => {
+  console.log("subscribtion called");
+  console.log(req);
+  const subscription = req.body;
+  console.log(subscription);
+  try {
+    const newSub = await new Subscription(subscription);
+    const serviceResponse = { ...Response };
+    serviceResponse.success = true;
+    serviceResponse.response = { message: "subscription successful" };
+    res.status(201).json(serviceResponse);
+  } catch (err) {
+    console.log(err);
+  }
+  const payload = JSON.stringify({
+    title: "Push Test",
+    body: "subscription success",
+  });
+  webpush
+    .sendNotification(subscription, payload)
+    .then(() => {
+      console.log("success");
+    })
+    .catch((err) => console.log(err));
 };

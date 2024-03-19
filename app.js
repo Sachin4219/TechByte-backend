@@ -1,11 +1,43 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import router from "./api/index.js";
 import * as dotenv from "dotenv";
+import webpush from "web-push";
+import path from "path";
+import url from "url";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
+webpush.setVapidDetails(
+  "mailto:elzachin373@gmail.com",
+  "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic",
+  "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY"
+);
+
+// const subscription = {
+//   endpoint:
+//     "https://fcm.googleapis.com/fcm/send/dmrjFNCsBHg:APA91bFy6KsyIXIc-d6-vYBDQUhyEUP3om-Mp3YjQ_AWEXbCaOCSTu_O0zaFlkWmYsu_X48K0AU7LPvoHjVkqEYro27iyW5mapgeuIl6aMmiScHvNIPGzF1LxAAzkciLt0BuH5eayxz-",
+//   expirationTime: null,
+//   keys: {
+//     p256dh:
+//       "BAmpxTwyQCz6yShhRNQyBuOT0I-_BSKviTnhd2USoE7FvHMZYxEfkgrhLNIvGkuSHUcoHVee0WSex1Dt6L9PV30",
+//     auth: "6WDcgSjPJt79cGCFeyH3SA",
+//   },
+// };
+
+// const payload = JSON.stringify({ title: "Push Test", body: "hello man" });
+// webpush
+//   .sendNotification(subscription, payload)
+//   .then(() => {
+//     console.log("success");
+//   })
+//   .catch((err) => console.log(err));
+
 const app = express();
+app.use(express.static(path.join(__dirname, "client")));
 
 const PORT = process.env.PORT || 4000;
 
