@@ -6,9 +6,10 @@ import * as dotenv from "dotenv";
 import webpush from "web-push";
 import path from "path";
 import url from "url";
+import Subscription from "./models/subscription.model.js";
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = url.fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 dotenv.config();
 
 webpush.setVapidDetails(
@@ -37,7 +38,7 @@ webpush.setVapidDetails(
 //   .catch((err) => console.log(err));
 
 const app = express();
-app.use(express.static(path.join(__dirname, "client")));
+// app.use(express.static(path.join(__dirname, "client")));
 
 const PORT = process.env.PORT || 4000;
 

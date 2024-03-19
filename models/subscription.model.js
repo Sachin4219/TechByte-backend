@@ -1,9 +1,28 @@
 import mongoose from "mongoose";
 
-const SubscriptionSchema = mongoose.Schema({
-  subscription: Object,
+// Define the schema for the subscription
+const subscriptionSchema = new mongoose.Schema({
+  endpoint: {
+    type: String,
+    required: true,
+  },
+  expirationTime: {
+    type: Date,
+    default: null,
+  },
+  keys: {
+    p256dh: {
+      type: String,
+      required: true,
+    },
+    auth: {
+      type: String,
+      required: true,
+    },
+  },
 });
 
-const Subscription = mongoose.model("Subscription", SubscriptionSchema);
+// Create the Subscription model
+const Subscription = mongoose.model("Subscription", subscriptionSchema);
 
 export default Subscription;

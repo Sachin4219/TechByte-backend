@@ -96,19 +96,19 @@ export const createPost = async (req, res) => {
     serviceResponse.success = true;
     serviceResponse.msg = "post created successfully";
     serviceResponse.response = newPost;
-    res.status(201).json(serviceResponse);
 
     const allSubs = await Subscription.find();
-    allSubs
-      .forEach((sub) => {
-        webpush.sendNotification(
+    console.log(allSubs);
+    allSubs.forEach((sub) => {
+      webpush
+        .sendNotification(
           sub,
           JSON.stringify({ title: "New Post", body: `a new post was added` })
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        )
+        .then(() => console.log("success"));
+    });
+
+    res.status(201).json(serviceResponse);
   } catch (error) {
     //Failure messages
     serviceResponse.msg = "Failed to create post";

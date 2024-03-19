@@ -14,6 +14,7 @@ export const generateToken = (author) => {
 
 export const register = async (req, res) => {
   const { name, username, bio, photo, password, email } = req.body;
+  console.log(req.body);
   const serviceResponse = { ...Response };
   try {
     // Find if author already exists or not
@@ -61,6 +62,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
   // console.log(req.body)
   const serviceResponse = { ...Response };
   try {
@@ -78,6 +80,7 @@ export const login = async (req, res) => {
           };
           serviceResponse.success = true;
           serviceResponse.msg = "Author logged in successfully";
+          console.log(serviceResponse);
 
           res.status(200).json(serviceResponse);
         } else {
@@ -111,11 +114,11 @@ export const check_auth = (req, res, next) => {
 
 export const subscribeUser = async (req, res) => {
   console.log("subscribtion called");
-  console.log(req);
   const subscription = req.body;
-  console.log(subscription);
+  // console.log(subscription);
   try {
-    const newSub = await new Subscription(subscription);
+    const newSub = await new Subscription({ ...subscription });
+    await newSub.save();
     const serviceResponse = { ...Response };
     serviceResponse.success = true;
     serviceResponse.response = { message: "subscription successful" };
