@@ -3,6 +3,7 @@ import Author from "../models/author.model.js";
 import { Response } from "../types/response.js";
 import Subscription from "../models/subscription.model.js";
 import webpush from "web-push";
+import { options } from "./authors.js";
 
 export const getMyPosts = async (req, res) => {
   const serviceResponse = { ...Response };
@@ -103,7 +104,10 @@ export const createPost = async (req, res) => {
       webpush
         .sendNotification(
           sub,
-          JSON.stringify({ title: "New Post", body: `a new post was added` })
+          JSON.stringify(
+            { title: "New Post", body: `a new post was added` },
+            options
+          )
         )
         .then(() => console.log("success"));
     });

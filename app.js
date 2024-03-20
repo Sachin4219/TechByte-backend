@@ -11,15 +11,18 @@ import Subscription from "./models/subscription.model.js";
 // const __filename = url.fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 dotenv.config();
-const publickey =
-  "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic";
-const privatekey = "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY";
-webpush.setVapidDetails(
-  "mailto:elzachin373@gmail.com",
-  publickey.replace(/-/g, "+").replace(/_/g, "/"),
-  privatekey.replace(/-/g, "+").replace(/_/g, "/")
-);
+// const publickey =
+//   "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic";
+// const privatekey = "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY";
+// // Convert Base64 to URL-safe Base64
+// function base64ToBase64url(base64) {
+//   return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+// }
 
+// // Example usage
+// const vapidPublicKey = base64ToBase64url(publickey);
+// const vapidPrivateKey = base64ToBase64url(privatekey);
+// webpush.setVapidDetails("mailto:elzachin373@gmail.com", publickey, privatekey);
 // const subscription = {
 //   endpoint:
 //     "https://fcm.googleapis.com/fcm/send/dmrjFNCsBHg:APA91bFy6KsyIXIc-d6-vYBDQUhyEUP3om-Mp3YjQ_AWEXbCaOCSTu_O0zaFlkWmYsu_X48K0AU7LPvoHjVkqEYro27iyW5mapgeuIl6aMmiScHvNIPGzF1LxAAzkciLt0BuH5eayxz-",
