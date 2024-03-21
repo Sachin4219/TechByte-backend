@@ -7,17 +7,17 @@ import Subscription from "../models/subscription.model.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const vapidDetails = {
-  publicKey: process.env.public_key,
-  privateKey: process.env.private_key,
-  subject: process.env.subject,
-};
+// const vapidDetails = {
+//   publicKey: process.env.public_key,
+//   privateKey: process.env.private_key,
+//   subject: process.env.subject,
+// };
 
-console.log(vapidDetails);
-export const options = {
-  TTL: 10000,
-  vapidDetails: vapidDetails,
-};
+// console.log(vapidDetails);
+// export const options = {
+//   TTL: 10000,
+//   vapidDetails: vapidDetails,
+// };
 
 export const generateToken = (author) => {
   console.log(author);
@@ -145,7 +145,7 @@ export const subscribeUser = async (req, res) => {
     body: "subscription success",
   });
   webpush
-    .sendNotification(subscription, payload, options)
+    .sendNotification(subscription, payload)
     .then(() => {
       console.log("success");
     })

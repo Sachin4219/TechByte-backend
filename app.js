@@ -2,8 +2,10 @@ import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import router from "./api/index.js";
+
 import * as dotenv from "dotenv";
 import webpush from "web-push";
+
 import path from "path";
 import url from "url";
 import Subscription from "./models/subscription.model.js";
@@ -11,9 +13,9 @@ import Subscription from "./models/subscription.model.js";
 // const __filename = url.fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 dotenv.config();
-// const publickey =
-//   "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic";
-// const privatekey = "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY";
+const publickey =
+  "BKRns56lTgiccLbI4tVnvoBrzAeKhbDcZzVSR1Kexd2yVZS3mal9_lPL6Ec8nsYL64acQHgsZbyuC5WZsiTZDic";
+const privatekey = "qxepqnkZ5K5KCZQtjxk4IxJHMVc4NyoP-iyb3So-PhY";
 // // Convert Base64 to URL-safe Base64
 // function base64ToBase64url(base64) {
 //   return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -22,10 +24,10 @@ dotenv.config();
 // // Example usage
 // const vapidPublicKey = base64ToBase64url(publickey);
 // const vapidPrivateKey = base64ToBase64url(privatekey);
-// webpush.setVapidDetails("mailto:elzachin373@gmail.com", publickey, privatekey);
+webpush.setVapidDetails("mailto:elzachin373@gmail.com", publickey, privatekey);
 // const subscription = {
 //   endpoint:
-//     "https://fcm.googleapis.com/fcm/send/dmrjFNCsBHg:APA91bFy6KsyIXIc-d6-vYBDQUhyEUP3om-Mp3YjQ_AWEXbCaOCSTu_O0zaFlkWmYsu_X48K0AU7LPvoHjVkqEYro27iyW5mapgeuIl6aMmiScHvNIPGzF1LxAAzkciLt0BuH5eayxz-",
+//     "https://fcm.googleapis.com/fcm/send/cVf3UkzdOmw:APA91bFdtuxW6qIXw-1bdk0e8v3JdRxW4JE-pv8d3br4RlFbyNFVAHLgX73yYNHf6a9Q_Cq1OdU6zc8UvQGxpp4XqxVJU8_2_1y87Jt_X-cmO6fWxoDtw1JJ9mK8lfeyZJ4SHcMNh-0K",
 //   expirationTime: null,
 //   keys: {
 //     p256dh:
