@@ -1,7 +1,7 @@
 import Post from "../models/post.model.js";
 import Author from "../models/author.model.js";
 import { Response } from "../types/response.js";
-import Subscription from "../models/subscription.model.js";
+import Subscription from "../models/subscription.js";
 import webpush from "web-push";
 // import { options } from "./authors.js";
 

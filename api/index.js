@@ -1,12 +1,9 @@
 import express from "express";
 const router = express.Router();
 
-import {
-  register,
-  login,
-  check_auth,
-  subscribeUser,
-} from "../controllers/authors.js";
+import { register, login, check_auth } from "../controllers/authors.js";
+
+import subscribeUser from "../controllers/subscription.js";
 
 import {
   createPost,

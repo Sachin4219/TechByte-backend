@@ -2,22 +2,6 @@ import Author from "../models/author.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Response } from "../types/response.js";
-import webpush from "web-push";
-import Subscription from "../models/subscription.model.js";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// const vapidDetails = {
-//   publicKey: process.env.public_key,
-//   privateKey: process.env.private_key,
-//   subject: process.env.subject,
-// };
-
-// console.log(vapidDetails);
-// export const options = {
-//   TTL: 10000,
-//   vapidDetails: vapidDetails,
-// };
 
 export const generateToken = (author) => {
   console.log(author);
@@ -124,30 +108,4 @@ export const check_auth = (req, res, next) => {
     serviceResponse.response = { isVerified: false };
     return res.status(401).json(serviceResponse);
   }
-};
-
-export const subscribeUser = async (req, res) => {
-  console.log("subscribtion called");
-  const subscription = req.body;
-  // console.log(subscription);
-  try {
-    const newSub = await new Subscription({ ...subscription });
-    await newSub.save();
-    const serviceResponse = { ...Response };
-    serviceResponse.success = true;
-    serviceResponse.response = { message: "subscription successful" };
-    res.status(201).json(serviceResponse);
-  } catch (err) {
-    console.log(err);
-  }
-  const payload = JSON.stringify({
-    title: "Push Test",
-    body: "subscription success",
-  });
-  webpush
-    .sendNotification(subscription, payload)
-    .then(() => {
-      console.log("success");
-    })
-    .catch((err) => console.log(err));
 };
