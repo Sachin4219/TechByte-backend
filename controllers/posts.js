@@ -39,9 +39,14 @@ export const getSinglePost = async (req, res) => {
 };
 
 export const getPosts = async (req, res) => {
+  const page = +req.params.page;
+  const startIdx = (page - 1) * 6;
+  const endIdx = page * 6;
   const serviceResponse = { ...Response };
   try {
-    const posts = await Post.find({}).populate("_author");
+    const posts = await Post.find({
+      _id: { $gt: startIdx, $lte: endIdx },
+    }).populate("_author");
     serviceResponse.success = true;
     serviceResponse.msg = "posts fetched successfully";
     serviceResponse.response = posts;

@@ -4,6 +4,7 @@ import cors from "cors";
 import router from "./api/index.js";
 
 import * as dotenv from "dotenv";
+import Post from "./models/post.model.js";
 
 dotenv.config();
 
@@ -41,5 +42,15 @@ mongoose
   .catch((error) => {
     console.log(`${error} did not connect`);
   });
+
+// const posts = await Post.find({});
+// await Post.deleteMany({});
+
+// posts.forEach(async (element, idx) => {
+// console.log(element._id);
+// const newPost = new Post({ ...element, _id: idx + 1 });
+// console.log(newPost._id);
+// await newPost.save();
+// });
 
 app.use("/", router);

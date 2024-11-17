@@ -3,7 +3,7 @@ const router = express.Router();
 
 import { register, login, check_auth } from "../controllers/authors.js";
 
-import subscribeUser from "../controllers/subscription.js";
+// import subscribeUser from "../controllers/subscription.js";
 
 import {
   createPost,
@@ -23,12 +23,12 @@ import { Response } from "../types/response.js";
 router.post("/register", register);
 router.post("/login", login);
 
-router.post("/subscribe", subscribeUser);
+// router.post("/subscribe", subscribeUser);
 
 // Posts Routes
 router.post("/posts/new", check_auth, createPost);
 router.get("/posts/my", check_auth, getMyPosts);
-router.get("/posts", getPosts);
+router.get("/posts/:page", getPosts);
 router.get("/recent", getRecentPosts);
 router.get("/post/:id", getSinglePost);
 router.get("/post/:id", check_auth, checkAuthor);

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 let PostSchema = mongoose.Schema({
+  _id: { type: String, required: true },
   title: { type: String },
   titleimage: { type: String },
   content: { type: String },
