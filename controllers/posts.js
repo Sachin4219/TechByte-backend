@@ -23,8 +23,7 @@ export const getMyPosts = async (req, res) => {
 export const getSinglePost = async (req, res) => {
   const serviceResponse = { ...Response };
   try {
-    const posts = await Post.find({}).populate("_author");
-    const singlepost = posts.find((element) => element._id === req.params.id);
+    const singlepost = await Post.findById(req.params.id).populate("_author");
     console.log(singlepost);
     serviceResponse.success = true;
     serviceResponse.msg = "posts fetched successfully";
@@ -158,7 +157,10 @@ export const deletePost = async (req, res) => {
   const serviceResponse = { ...Response };
   try {
     const post = await Post.findById(req.params.id);
+
     //checking user access
+    console.log(req.authorData);
+    console.log(post._author);
     if (post._author.toString() === req.authorData.id.toString()) {
       //deleting the post
       await Post.findByIdAndDelete(req.params.id);
