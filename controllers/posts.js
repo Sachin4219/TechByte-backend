@@ -1,7 +1,7 @@
 import Post from "../models/post.model.js";
 import Author from "../models/author.model.js";
 import { Response } from "../types/response.js";
-import Subscription from "../models/subscription.js";
+// import Subscription from "../models/subscription.js";
 import webpush from "web-push";
 // import { options } from "./authors.js";
 
@@ -103,19 +103,19 @@ export const createPost = async (req, res) => {
     serviceResponse.msg = "post created successfully";
     serviceResponse.response = newPost;
 
-    const allSubs = await Subscription.find();
-    console.log(allSubs);
-    allSubs.forEach((sub) => {
-      webpush
-        .sendNotification(
-          sub,
-          JSON.stringify(
-            { title: "New Post", body: `a new post was added` }
-            // options
-          )
-        )
-        .then(() => console.log("success"));
-    });
+    // const allSubs = await Subscription.find();
+    // console.log(allSubs);
+    // allSubs.forEach((sub) => {
+    //   webpush
+    //     .sendNotification(
+    //       sub,
+    //       JSON.stringify(
+    //         { title: "New Post", body: `a new post was added` }
+    //         // options
+    //       )
+    //     )
+    //     .then(() => console.log("success"));
+    // });
 
     res.status(201).json(serviceResponse);
   } catch (error) {
