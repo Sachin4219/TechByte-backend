@@ -12,7 +12,6 @@ export const generateToken = (author) => {
 
 export const register = async (req, res) => {
   const { name, username, bio, photo, password, email } = req.body;
-  console.log(req.body);
   const serviceResponse = { ...Response };
   try {
     // Find if author already exists or not
@@ -60,7 +59,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
   // console.log(req.body)
   const serviceResponse = { ...Response };
   try {
@@ -78,7 +76,6 @@ export const login = async (req, res) => {
           };
           serviceResponse.success = true;
           serviceResponse.msg = "Author logged in successfully";
-          console.log(serviceResponse);
 
           res.status(200).json(serviceResponse);
         } else {

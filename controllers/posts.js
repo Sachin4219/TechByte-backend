@@ -1,9 +1,6 @@
 import Post from "../models/post.model.js";
 import Author from "../models/author.model.js";
 import { Response } from "../types/response.js";
-// import Subscription from "../models/subscription.js";
-import webpush from "web-push";
-// import { options } from "./authors.js";
 
 export const getMyPosts = async (req, res) => {
   const serviceResponse = { ...Response };
@@ -26,10 +23,12 @@ export const getMyPosts = async (req, res) => {
 export const getSinglePost = async (req, res) => {
   const serviceResponse = { ...Response };
   try {
-    const singleposts = await Post.findById(req.params.id).populate("_author");
+    const posts = await Post.find({}).populate("_author");
+    const singlepost = posts.find((element) => element._id === req.params.id);
+    console.log(singlepost);
     serviceResponse.success = true;
     serviceResponse.msg = "posts fetched successfully";
-    serviceResponse.response = singleposts;
+    serviceResponse.response = singlepost;
     res.status(200).json(serviceResponse);
   } catch (error) {
     serviceResponse.msg = "Failed to fetch posts";
@@ -39,14 +38,9 @@ export const getSinglePost = async (req, res) => {
 };
 
 export const getPosts = async (req, res) => {
-  const page = +req.params.page;
-  const startIdx = (page - 1) * 6;
-  const endIdx = page * 6;
   const serviceResponse = { ...Response };
   try {
-    const posts = await Post.find({
-      _id: { $gt: startIdx, $lte: endIdx },
-    }).populate("_author");
+    const posts = await Post.find({}).populate("_author");
     serviceResponse.success = true;
     serviceResponse.msg = "posts fetched successfully";
     serviceResponse.response = posts;
@@ -102,21 +96,6 @@ export const createPost = async (req, res) => {
     serviceResponse.success = true;
     serviceResponse.msg = "post created successfully";
     serviceResponse.response = newPost;
-
-    // const allSubs = await Subscription.find();
-    // console.log(allSubs);
-    // allSubs.forEach((sub) => {
-    //   webpush
-    //     .sendNotification(
-    //       sub,
-    //       JSON.stringify(
-    //         { title: "New Post", body: `a new post was added` }
-    //         // options
-    //       )
-    //     )
-    //     .then(() => console.log("success"));
-    // });
-
     res.status(201).json(serviceResponse);
   } catch (error) {
     //Failure messages
